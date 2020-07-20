@@ -1,7 +1,7 @@
 ## Plotting the distribution of tags per TSR and STRIPE-seq
 
 #set working directory
-getwd("/home/rraborn/scratch/DaphPopsTSRs")
+setwd("/home/rraborn/scratch/DaphPopsTSRs")
 
 #loading libraries
 library(ggplot2)
