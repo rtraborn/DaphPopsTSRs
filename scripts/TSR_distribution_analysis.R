@@ -12,11 +12,16 @@ POV84_3thresh <- read.table(file="TSRchitect_TSSthresh3_files/POV84_TSRset.txt",
 TEX36_3thresh <- read.table(file="TSRchitect_TSSthresh3_files/TEX36_TSRset.txt",header=TRUE)
 POV12_3thresh <- read.table(file="TSRchitect_TSSthresh3_files/POV12_TSRset.txt",header=TRUE)
 
+POV84_3thresh$Pop <- "POV84"
+TEX36_3thresh$Pop <- "TEX36"
+POV12_3thresh$Pop <- "POV12"
+
 #Combining the three datasets:
 combined_table <- rbind(POV12_3thresh, POV84_3thresh, TEX36_3thresh)
 
 #Plotting the reverse cumulative distribution of the TSRs
-p <- ggplot(combined_table, aes(as.numeric(nTAGs), colour=Pop)) + stat_ecdf() + scale_x_log10() + scale_y_log10() + labs(y="Fraction of Total TSRs", x = "number of tags/TSR (nTAGs)")
+p <- ggplot(combined_table, aes(as.numeric(nTAGs), colour=Pop)) + stat_ecdf() + scale_x_log10() + scale_y_log10() 
+p + labs(y="Fraction of Total TSRs", x = "number of tags/TSR (nTAGs)")
 png(file="Dpulex_TSRs_nTAGs_RevCumulPlot.png")
 
 quantile.pov84 <- quantile(as.numeric(POV84_3thresh$nTAGs), probs = seq(0,1,0.1))
