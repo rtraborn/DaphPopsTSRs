@@ -85,6 +85,20 @@ joined_table %>% group_by(Pop.x, Pop.y) %>% dplyr::summarise(Mean = mean(nTAGs.x
 
 cor.test(joined_table$nTSSs.x, joined_table$nTSSs.y, method = "pearson", conf.level = 0.95)
 
+library(GenomicRanges)
+
+POV84_gr <- makeGRangesFromDataFrame(POV84_3thresh, seqnames.field= "seq")
+POV12_gr <- makeGRangesFromDataFrame(POV12_3thresh, seqnames.field= "seq")
+TEX36_gr <- makeGRangesFromDataFrame(TEX36_3thresh, seqnames.field= "seq")
+
+POV84top_gr <- makeGRangesFromDataFrame(POV84_top10pc, seqnames.field = "seq")
+POV12top_gr <- makeGRangesFromDataFrame(POV12_top10pc, seqnames.field = "seq")
+TEX36top_gr <- makeGRangesFromDataFrame(TEX36_top10pc, seqnames.field = "seq")
 
 
+subset_1 <- subsetByOverlaps(POV84_gr, POV12_gr, maxgap = 5)
+subset_1_top <- subsetByOverlaps(POV84top_gr, POV12top_gr, maxgap=5)
+sum(countOverlaps(POV84top_gr, POV12top_gr))
+subsetByOverlaps(POV84top_gr, TEX36top_gr)
 
+##continue here tomorrow
