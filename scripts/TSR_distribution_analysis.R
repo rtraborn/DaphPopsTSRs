@@ -74,6 +74,10 @@ TEX36_top_genes_df <- TEX36_3thresh[TEX36_top_ind,]
 
 POV84_top_ind <- match(common.genes.1, POV84_3thresh$featureID)
 POV84_top_genes_df <- POV84_3thresh[POV84_top_ind,]
+POV84_w_geneIDs <- POV84_3thresh %>% filter(!is.na(featureID))
+TEX36_w_geneIDs <- TEX36_3thresh %>% filter(!is.na(featureID))
+
+test.compare <- POV84_w_geneIDs %>% full_join(TEX36_w_geneIDs, by="featureID")  #using dplyr 
 
 compare_table <- rbind(POV84_top_genes_df, TEX36_top_genes_df)
 joined_table <- POV84_top_genes_df %>% full_join(TEX36_top_genes_df, by="featureID")  #using dplyr 
