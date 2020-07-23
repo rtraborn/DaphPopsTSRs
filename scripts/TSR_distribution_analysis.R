@@ -5,6 +5,8 @@ setwd("/home/rraborn/scratch/DaphPopsTSRs")
 
 #loading libraries
 library(ggplot2)
+library(reshape2)
+library(dplyr)
 
 #Let's import the datasets:
 
@@ -66,4 +68,19 @@ LPB_2_top_genes <- na.omit(LPB_2_top10pc$featureID)
 
 first.m <- match(POV84_top_genes, TEX36_top_genes)
 common.genes.1 <- TEX36_top_genes[na.omit(first.m)]
-#pick it up here tomorrow
+
+TEX36_top_ind <- match(common.genes.1, TEX36_3thresh$featureID)
+TEX36_top_genes_df <- TEX36_3thresh[TEX36_top_ind,]
+
+POV84_top_ind <- match(common.genes.1, POV84_3thresh$featureID)
+POV84_top_genes_df <- POV84_3thresh[POV84_top_ind,]
+
+compare_table <- rbind(POV84_top_genes_df, TEX36_top_genes_df)
+joined_table <- POV84_top_genes_df %>% full_join(TEX36_top_genes_df, by="featureID")  #using dplyr 
+joined_table %>% group_by(Pop.x, Pop.y) %>% dplyr::summarise(Mean = mean(nTAGs.x, na.rm = T), n=n(), sd = sd(nTAGs.x, na.rm = T), se = sd/sqrt(n))
+
+cor.test(joined_table$nTSSs.x, joined_table$nTSSs.y, method = "pearson", conf.level = 0.95)
+
+
+
+
